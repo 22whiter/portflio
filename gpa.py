@@ -56,51 +56,49 @@ class GPA(object):
 
 										}
 	def courseGPA(self,grade,level):
-		if level == "h" or level == "ap":
-			return self.h_ap_letterGrade_to_GPA_dict[grade]
-		if level == "acp":
-			return self.acp_letterGrade_to_GPA_dict[grade]
-		if level == "cp":
+		if gpa_type == "w":
+			if level == "h" or level == "ap":
+				return self.h_ap_letterGrade_to_GPA_dict[grade]
+			if level == "acp":
+				return self.acp_letterGrade_to_GPA_dict[grade]
+			if level == "cp":
+				return self.cp_letterGrade_to_GPA_dict[grade]
+		if gpa_type == "uw":
 			return self.cp_letterGrade_to_GPA_dict[grade]
 	def finalGPA(self,englishGPA,mathGPA,scienceGPA,historyGPA,otherGPA):
 		return (englishGPA+mathGPA+scienceGPA+historyGPA+otherGPA)/4
 
 		
-
-level_history = input("What level history do you take? (h,acp,cp)>> ")
+gpa_type = input("What kind of GPA do you want to calculate? (w or uw)>> ")
 history = input("What grade did you get in history? (ie. a,a-)>> ")
-level_math = input("What level math do you take? (h,acp,cp)>> ")
 math = input("What grade did you get in math? (ie. a,a-)>> ")
-level_science = input("What level science do you take? (h,acp,cp)>> ")
 science = input("What grade did you get in science? (ie. a,a-)>> ")
-level_english = input("What level english do you take? (h,acp,cp)>> ")
 english = input("What grade did you get in english? (ie. a,a-)>> ")
-level_other = input("What level other class (ie. ap or language) class do you take? (h,acp,cp)>> ")
 other = input("What grade did you get in your other class? (ie. a,a-)>> ")
 
+#collects and stores as variables user input of levels if calculating weighted gpa
+if gpa_type == "w":
+	level_history = input("What level history do you take? (h,acp,cp)>> ")
+	level_math = input("What level math do you take? (h,acp,cp)>> ")
+	level_science = input("What level science do you take? (h,acp,cp)>> ")
+	level_english = input("What level english do you take? (h,acp,cp)>> ")
+	level_other = input("What level other class (ie. ap or language) class do you take? (h,acp,cp)>> ")
+
+#sets levels to whatever to fill variable level which is unnessisaty for unweighted gpa calculation
+if gpa_type == "uw":
+  level_history = level_math = level_science = level_english = level_other = "whatever"
+
+#sets class with variables in it to variable gpa
 gpa = GPA(history,math,science,english,other)
 
-#history
+#induvidual gpa calculations
 historyGPA = gpa.courseGPA(history,level_history)
-
-#math
 mathGPA = gpa.courseGPA(math,level_math)
-
-#science
 scienceGPA = gpa.courseGPA(science,level_science)
-
-#english
 englishGPA = gpa.courseGPA(english,level_english)
-
-#other
 otherGPA = gpa.courseGPA(other,level_other)
 
+#avarges and prints final gpa
 print("-"*10)
 print("Your Final GPA is ",gpa.finalGPA(englishGPA,mathGPA,scienceGPA,historyGPA,otherGPA))
 print("-"*10)
-
-print("Your GPA for history is ", gpa.courseGPA(history,level_history))
-print("Your GPA for math is ", gpa.courseGPA(math,level_math))
-print("Your GPA for science is ", gpa.courseGPA(science,level_science))
-print("Your GPA for english is ", gpa.courseGPA(english,level_english))
-print("Your GPA for your other class is ", gpa.courseGPA(english,level_english))
